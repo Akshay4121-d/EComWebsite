@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+    .p-multiselect {
+        width: 100%;
+        margin-top: 3px;
+    }
+    .p-multiselect-panel .p-multiselect-items{
+        padding:0 !important;
+    }
+
+    .p-multiselect-filter {
+        padding: 2px;
+        border: none;
+    }
+
+    .input-filed{
+        width: 100%;
+        padding: 0.5rem;
+        background: #ffffff;
+        border: 1px solid #ced4da;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        border-radius: 3px;
+        outline: none;
+    }
+    .input-filed:hover{
+        border: 1px solid #2196F3;
+        transition: border-color 0.3s ease;    
+    }
+    .h43{
+        height: 43px;
+    }

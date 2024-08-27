@@ -1,0 +1,80 @@
+  /* Add this to contact-us.component.css */
+  .filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .filter-tag {
+    display: inline-block;
+    padding: 5px;
+    margin: 2px;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+  }
+
+  .remove-filter {
+    margin-left: 8px;
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+  }
+
+  .remove-filter:hover {
+    text-decoration: underline;
+  }
+
+  .table {
+    margin-top: 20px;
+  }
+
+  .filter-item {
+    display: inline-block;
+    width: 173px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+  }
+
+
+  .filter-text {
+    display: inline-block;
+    padding-left: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .remove-filter {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    z-index: 1;
+  }
+
+  .ecom-chip-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+  .ecom-chip {
+    background: #f7f7f7;
+    border-radius: 20px;
+    font-size: 15px;
+    width: auto;
+    padding: 0 15px;
+  }
+  
+  .ecom-chip-item {
+    gap: 8px;
+    display: inline-flex;
+    padding: 5px 8px;
+    align-items: center;
+  }
+
+  .ecom-chip svg {
+    width: 10px;
+    height: 10px;
+  }

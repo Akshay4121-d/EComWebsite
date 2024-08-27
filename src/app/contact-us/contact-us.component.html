@@ -1,0 +1,190 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-2 mb-3">
+      <label>Select Transaction type:</label>
+      <p-multiSelect [options]="transactionTypes" [(ngModel)]="selectedTransactionTypes" [filter]="true"
+        optionLabel="name" optionValue="name" (onChange)="filterData()" (keydown)="validateNoSpecialChars($event)"
+        placeholder="Select Transaction Types">
+      </p-multiSelect>
+      <!-- <p-dropdown [options]="transactionTypes" [(ngModel)]="selectedTransactionTypes" optionLabel="name"
+        optionValue="name" placeholder="Select Transaction Type" (onChange)="filterData()" (keydown)="validateNoSpecialChars($event)">
+      </p-dropdown> -->
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <label>Select Account type:</label>
+      <p-multiSelect [options]="accountTypes" [(ngModel)]="selectedAccountType" [filter]="true" optionLabel="name"
+        optionValue="name" (onChange)="filterData()" (keydown)="validateNoSpecialChars($event)"
+        placeholder="Select Account Type">
+      </p-multiSelect>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <label>Statement Period:</label>
+      <p-multiSelect [options]="statementPeriods" [(ngModel)]="selectedStatementPeriod" [filter]="true"
+        optionLabel="value" optionValue="value" (onChange)="filterData()" (keydown)="validateNoSpecialChars($event)"
+        placeholder="Select Statement Period">
+      </p-multiSelect>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <label>Account Number:</label>
+      <p-multiSelect [options]="accountNumbers" [(ngModel)]="selectedAccountNumber" [filter]="true"
+        optionLabel="accountNumber" optionValue="accountNumber" (onChange)="filterData()" (keydown)="numberOnly($event)"
+        placeholder="Select Account Number">
+        <ng-template let-account pTemplate="item">
+          <div pTooltip="{{account.accountNumber}}" tooltipPosition="top">
+            {{account.accountNumber}}
+          </div>
+        </ng-template>
+      </p-multiSelect>
+
+    </div>
+    <div class="col-md-2 mb-3">
+      <p-multiSelect [options]="largeDeposits" [(ngModel)]="selectedLargeDeposit" [filter]="true" optionLabel="name"
+        optionValue="name" (onChange)="filterData()" (keydown)="validateNoSpecialChars($event)"
+        placeholder="Select Large Deposit">
+
+        <!-- Custom header template for the filter input -->
+        <ng-template pTemplate="header">
+          <div class="ui-helper-clearfix" style="position: relative">
+            <input #filterInput type="text" pInputText
+              class="ui-multiselect-filter ui-inputtext ui-widget ui-state-default ui-corner-all" placeholder="Search"
+              (input)="onFilterInput($event)" />
+            <span class="ui-multiselect-filter-icon pi pi-search"></span>
+            <span class="ui-multiselect-clear-icon pi pi-times" (click)="clearFilter(filterInput)"></span>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+
+
+    <div class="col-md-2 mb-3">
+      <label>Category:</label>
+      <p-multiSelect [options]="categories" [(ngModel)]="selectedCategory" [filter]="true" optionLabel="value"
+        optionValue="value" (onChange)="filterData()" (keydown)="validateNoSpecialChars($event)"
+        placeholder="Select Category">
+      </p-multiSelect>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <label class="pb-1">Search Transaction:</label>
+      <input type="text" #descriptionInput class="input-filed" [(ngModel)]="searchDescription"
+        placeholder="Search by description" (keydown)="filterData($event)">
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <label class="pb-1">Amount:</label>
+      <div class="d-flex align-items-center gap-2">
+        <input #minInput type="number" class="h43 input-filed" [(ngModel)]="minAmount" (keydown)="numberOnly($event)"
+          (input)="validateAmount($event, 'min')" placeholder="Min" step="1">
+
+        <input type="number" class="h43 input-filed" [(ngModel)]="maxAmount" (keydown)="numberOnly($event)"
+          (input)="validateAmount($event, 'max')" placeholder="Max" step="1">
+      </div>
+    </div>
+
+
+
+    <div class="col-md-2 mb-3">
+      <label>Transaction Status:</label>
+      <p-multiSelect [options]="transactionStatus" [(ngModel)]="selectedTransactionStatus" [filter]="true"
+        optionLabel="name" optionValue="name" (onChange)="filterData()" (keydown)="validateNoSpecialChars($event)"
+        placeholder="Select Transaction Status">
+      </p-multiSelect>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <label>Select Bank Name:</label>
+      <p-multiSelect [options]="bankNames" [(ngModel)]="selectedBankNames" [filter]="true" optionLabel="value"
+        optionValue="id" (onChange)="filterData()" placeholder="Select Bank Name"
+        (keydown)="validateOnlyCharacter($event)">
+      </p-multiSelect>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <label>Select Account Holder Name:</label>
+      <p-multiSelect [options]="accountHolderNames" (keypress)="validateOnlyCharacter($event)"
+        [(ngModel)]="selectedAccountHolderNames" [filter]="true" optionLabel="value" optionValue="id"
+        (onChange)="filterData()" placeholder="Select Account Holder Name">
+      </p-multiSelect>
+    </div>
+    <!-- <kendo-multiselect
+      [data]="data"
+      [value]="value"
+      [valueField]="'id'"
+      [textField]="'text'"
+      (valueChange)="onValueChange($event)">
+    </kendo-multiselect> -->
+
+    <!-- Applied Filters -->
+
+    <div class="col-md-12 mb-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="ecom-chip-wrapper">
+          Applied Filters:
+          <div *ngFor="let filterGroup of getAppliedFilters()" class="ecom-chip">
+            <!-- Display label only once -->
+            <span class="ecom-chip-label">{{ filterGroup.label }}:</span>
+            <!-- Loop through each value and display with individual cross marks -->
+            <span class="ecom-chip-item" *ngFor="let value of filterGroup.values">
+              {{ value }}
+              <svg (click)="removeFilter({label: filterGroup.label, value: value})" height="329pt"
+                viewBox="0 0 329.26933 329" width="329pt" xmlns="http://www.w3.org/2000/svg" id="fi_1828666">
+                <g fill="#f44336">
+                  <path
+                    d="m21.339844 329.398438c-5.460938 0-10.925782-2.089844-15.082032-6.25-8.34375-8.339844-8.34375-21.824219 0-30.164063l286.589844-286.59375c8.339844-8.339844 21.824219-8.339844 30.164063 0 8.34375 8.339844 8.34375 21.824219 0 30.164063l-286.589844 286.59375c-4.183594 4.179687-9.621094 6.25-15.082031 6.25zm0 0">
+                  </path>
+                  <path
+                    d="m307.929688 329.398438c-5.460938 0-10.921876-2.089844-15.082032-6.25l-286.589844-286.59375c-8.34375-8.339844-8.34375-21.824219 0-30.164063 8.339844-8.339844 21.820313-8.339844 30.164063 0l286.589844 286.59375c8.34375 8.339844 8.34375 21.824219 0 30.164063-4.160157 4.179687-9.621094 6.25-15.082031 6.25zm0 0">
+                  </path>
+                </g>
+              </svg>
+            </span>
+          </div>
+        </div>
+        <button *ngIf="hasAppliedFilters" type="button" (click)="clearFilters()" class="btn btn-danger ml-auto">Clear
+          Filter</button>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Account Type</th>
+            <th>Statement Period</th>
+            <th>Account Number</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <!-- <th>Transaction Frequency</th> -->
+            <th>Description</th>
+            <th>Transaction Status</th>
+            <th>Large Deposit</th>
+            <th>Flag Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of filteredTransactions">
+            <td>{{ transaction.accountType }}</td>
+            <td>{{ transaction.statementPeriod | date: 'MMMM yyyy' }}</td>
+            <td>{{ transaction.accountNumber }}</td>
+            <td>{{ transaction.amount }}</td>
+            <td>{{ transaction.category }}</td>
+            <td>{{ transaction.description }}</td>
+            <td>{{ transaction.transactionStatus }}</td>
+            <td>{{ transaction.transactionType === 'LD' ? 'Yes' : 'No' }}</td>
+            <td>
+              <select class="form-select" [(ngModel)]="transaction.flagStatus" style="width: auto;">
+                <option *ngFor="let flag of flagStatusOptions" [value]="flag.value">
+                  {{ flag.value }}
+                </option>
+              </select>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
